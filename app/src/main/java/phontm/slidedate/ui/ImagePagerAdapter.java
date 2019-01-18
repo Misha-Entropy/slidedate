@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -58,7 +60,7 @@ public class ImagePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         View itemView = null;
-        mListener.onButtonClicked(false);
+//        mListener.onButtonClicked(false);
         if (position < 6) {
             itemView = mLayoutInflater.inflate(R.layout.pager_item_image, container, false);
 
@@ -114,28 +116,70 @@ public class ImagePagerAdapter extends PagerAdapter {
             final TextView a2 = itemView.findViewById(R.id.tv_answer_two);
             final TextView a3 = itemView.findViewById(R.id.tv_answer_three);
             final TextView a4 = itemView.findViewById(R.id.tv_answer_four);
+            final RadioButton r1 = itemView.findViewById(R.id.radio_one);
+            final RadioButton r2 = itemView.findViewById(R.id.radio_two);
+            final RadioButton r3 = itemView.findViewById(R.id.radio_three);
+            final RadioButton r4 = itemView.findViewById(R.id.radio_four);
             a1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setTextChoice(a1,a2,a3,a4,0,position-6);
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,0,position-6);
                 }
             });
             a2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setTextChoice(a1,a2,a3,a4,1,position-6);
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,1,position-6);
                 }
             });
             a3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setTextChoice(a1,a2,a3,a4,2,position-6);
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,2,position-6);
                 }
             });
             a4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setTextChoice(a1,a2,a3,a4,3,position-6);
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,3,position-6);
+                }
+            });
+//            r1.setEnabled(false);
+//            r2.setEnabled(false);
+//            r3.setEnabled(false);
+//            r4.setEnabled(false);
+            r1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,0,position-6);
+                }
+            });
+            r2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,1,position-6);
+                }
+            });
+            r3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,2,position-6);
+                }
+            });
+            r4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTextChoice(a1,a2,a3,a4,r1,r2,r3,r4,3,position-6);
+                }
+            });
+            Button continueBtn = itemView.findViewById(R.id.cont_btn);
+            continueBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectedFirstAnswer[position-6]||selectedSecondAnswer[position-6]
+                            ||selectedThirdAnswer[position-6]||selectedFourthAnswer[position-6]) {
+                        mListener.onButtonClicked(true);
+                    }
                 }
             });
             switch (position){
@@ -178,7 +222,8 @@ public class ImagePagerAdapter extends PagerAdapter {
         return itemView;
     }
 
-    private void setTextChoice (TextView a1, TextView a2, TextView a3, TextView a4, int selected, int pos) {
+    private void setTextChoice (TextView a1, TextView a2, TextView a3, TextView a4,
+                                RadioButton r1, RadioButton r2,RadioButton r3,RadioButton r4,int selected, int pos) {
         switch (selected) {
             case 0:
                 selectedFirstAnswer[pos] = !selectedFirstAnswer[pos];
@@ -209,7 +254,11 @@ public class ImagePagerAdapter extends PagerAdapter {
         a2.setBackground(context.getResources().getDrawable(selectedSecondAnswer[pos] ? R.color.answer_select : R.color.selected));
         a3.setBackground(context.getResources().getDrawable(selectedThirdAnswer[pos] ? R.color.answer_select : R.color.selected));
         a4.setBackground(context.getResources().getDrawable(selectedFourthAnswer[pos] ? R.color.answer_select : R.color.selected));
-        mListener.onButtonClicked(selectedFirstAnswer[pos]||selectedSecondAnswer[pos]||selectedThirdAnswer[pos]||selectedFourthAnswer[pos]);
+        r1.setChecked(selectedFirstAnswer[pos]);
+        r2.setChecked(selectedSecondAnswer[pos]);
+        r3.setChecked(selectedThirdAnswer[pos]);
+        r4.setChecked(selectedFourthAnswer[pos]);
+//        mListener.onButtonClicked(selectedFirstAnswer[pos]||selectedSecondAnswer[pos]||selectedThirdAnswer[pos]||selectedFourthAnswer[pos]);
     }
 
     @Override

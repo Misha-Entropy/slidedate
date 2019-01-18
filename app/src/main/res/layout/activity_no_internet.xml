@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:text="@string/settings"
         android:layout_marginTop="20dp"
+        android:textAllCaps="false"
         android:layout_gravity="center_horizontal"
         android:background="@color/answer_select"/>
 </LinearLayout>

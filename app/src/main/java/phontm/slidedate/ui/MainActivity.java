@@ -3,6 +3,7 @@ package phontm.slidedate.ui;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements ImagePagerAdapter
     private String[] imgUrls;
 
     private CustomViewPager mPager;
+    private ImagePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,11 @@ public class MainActivity extends AppCompatActivity implements ImagePagerAdapter
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         imgUrls = getIntent().getStringArrayExtra("urls");
-        ImagePagerAdapter adapter = new ImagePagerAdapter(Arrays.asList(imgUrls), shuffleArray(QUESTION_1),
+        adapter = new ImagePagerAdapter(Arrays.asList(imgUrls), shuffleArray(QUESTION_1),
                 shuffleArray(QUESTION_2), shuffleArray(QUESTION_3),  shuffleArray(FINAL_ANSWERS)[new Random().nextInt(3)],this);
         mPager = findViewById(R.id.pager);
         mPager.setAdapter(adapter);
-        mPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.right);
+        mPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.none);
     }
 
     private String[] shuffleArray(String[] ar)
@@ -64,7 +66,11 @@ public class MainActivity extends AppCompatActivity implements ImagePagerAdapter
 
     @Override
     public void onButtonClicked(boolean clicked) {
-        mPager.setPagingEnabled(clicked);
+//        mPager.setPagingEnabled(clicked);
+        if (mPager.getCurrentItem() < adapter.getCount()) {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
+            Log.wtf("INTS +++++++++:",mPager.getCurrentItem() + "|" + adapter.getCount());
+        }
     }
 
     @Override
