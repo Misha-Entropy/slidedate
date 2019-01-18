@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/splash">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/selected"
+        android:layout_margin="20dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/final_text"
+        android:textAlignment="center"
+        android:textSize="21sp"
+        android:singleLine="false"
+        android:textColor="#ffffff"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_close"
+        android:padding="8dp"
+        android:text="@string/close_app"
+        android:textAlignment="center"
+        android:textSize="21sp"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:background="@color/answer_select"/>
+
+</RelativeLayout>
