@@ -101,6 +101,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+
     private void goToMainActivity() {
         finish();
 
