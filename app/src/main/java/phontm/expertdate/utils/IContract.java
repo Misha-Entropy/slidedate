@@ -1,4 +1,4 @@
-package phontm.slidedate.utils;
+package phontm.expertdate.utils;
 
 public interface IContract {
 
@@ -27,7 +27,7 @@ public interface IContract {
             "you are looking for. On the other hand, maybe it’s time to stay open for new opportunities " +
             "and give a chance to someone different from your type.",
 
-            "This month is the time for love! Stay confident and get into the game. You’ll definitely " +
+            "This is the time for love! Stay confident and get into the game. You’ll definitely " +
                     "get lucky in the dating game this month. Though, don’t rush into anything serious. " +
                     "Take your time and enjoy carefree dating with your new crush.",
 

@@ -1,4 +1,4 @@
-package phontm.slidedate;
+package phontm.expertdate;
 
 import org.junit.Test;
 

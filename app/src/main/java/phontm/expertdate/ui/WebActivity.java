@@ -1,4 +1,4 @@
-package phontm.slidedate.ui;
+package phontm.expertdate.ui;
 
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import phontm.slidedate.R;
+import phontm.expertdate.R;
 
 public class WebActivity extends AppCompatActivity {
 

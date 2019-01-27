@@ -1,4 +1,4 @@
-package phontm.slidedate.entities;
+package phontm.expertdate.entities;
 
 import com.google.gson.annotations.SerializedName;
 

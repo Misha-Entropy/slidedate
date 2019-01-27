@@ -1,4 +1,4 @@
-package phontm.slidedate.ui;
+package phontm.expertdate.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,12 +12,12 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import phontm.slidedate.R;
+import phontm.expertdate.R;
 
-import static phontm.slidedate.utils.IContract.FINAL_ANSWERS;
-import static phontm.slidedate.utils.IContract.QUESTION_1;
-import static phontm.slidedate.utils.IContract.QUESTION_2;
-import static phontm.slidedate.utils.IContract.QUESTION_3;
+import static phontm.expertdate.utils.IContract.FINAL_ANSWERS;
+import static phontm.expertdate.utils.IContract.QUESTION_1;
+import static phontm.expertdate.utils.IContract.QUESTION_2;
+import static phontm.expertdate.utils.IContract.QUESTION_3;
 
 public class MainActivity extends AppCompatActivity implements ImagePagerAdapter.AdapterListener{
 

@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="transarent">#00000000</color>
-    <color name="selected">#603F51B5</color>
+    <color name="selected">#403F51B5</color>
     <color name="answer_select">#301BEE1E</color>
 </resources>

@@ -1,4 +1,4 @@
-package phontm.slidedate.ui;
+package phontm.expertdate.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import phontm.slidedate.R;
+import phontm.expertdate.R;
 
 public class ImagePagerAdapter extends PagerAdapter {
 

@@ -1,4 +1,4 @@
-package phontm.slidedate.ui;
+package phontm.expertdate.ui;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

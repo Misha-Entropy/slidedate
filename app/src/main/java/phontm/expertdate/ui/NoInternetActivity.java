@@ -1,4 +1,4 @@
-package phontm.slidedate.ui;
+package phontm.expertdate.ui;
 
 import android.app.LauncherActivity;
 import android.content.BroadcastReceiver;
@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import phontm.slidedate.R;
+import phontm.expertdate.R;
 
 public class NoInternetActivity extends AppCompatActivity {
 

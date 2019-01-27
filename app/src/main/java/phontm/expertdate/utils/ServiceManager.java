@@ -1,4 +1,4 @@
-package phontm.slidedate.utils;
+package phontm.expertdate.utils;
 
 import android.content.Context;
 import android.content.ContextWrapper;

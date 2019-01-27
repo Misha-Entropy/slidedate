@@ -1,4 +1,4 @@
-package phontm.slidedate;
+package phontm.expertdate;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

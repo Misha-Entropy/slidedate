@@ -1,4 +1,4 @@
-package phontm.slidedate.ui;
+package phontm.expertdate.ui;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -17,11 +17,11 @@ import java.util.Random;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import phontm.slidedate.R;
-import phontm.slidedate.entities.ServerResponse;
-import phontm.slidedate.utils.ServiceManager;
+import phontm.expertdate.R;
+import phontm.expertdate.entities.ServerResponse;
+import phontm.expertdate.utils.ServiceManager;
 
-import static phontm.slidedate.utils.IContract.SERVER_ENDPOINT;
+import static phontm.expertdate.utils.IContract.SERVER_ENDPOINT;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -72,7 +72,7 @@ public class SplashActivity extends AppCompatActivity {
                     ServerResponse response = null;
                     try {
                         response = gson.fromJson(exec(SERVER_ENDPOINT
-                                + String.valueOf(rand.nextInt() % 2)), ServerResponse.class);
+                                /*+ String.valueOf(rand.nextInt() % 2)*/), ServerResponse.class);
                         Log.wtf("RESPONSE", String.valueOf(response.isExternal()) + "||" + response.getImages().length);
                     } catch (IOException e) {
                         e.printStackTrace();
