@@ -1,7 +1,11 @@
 package phontm.expertdate.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,8 +99,39 @@ public class SplashActivity extends AppCompatActivity {
         super.onPause();
     }
 
+
+   public  boolean isStoragePermissionGranted() {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                   == PackageManager.PERMISSION_GRANTED) {
+               Log.v("LAUNCH", "Permission is granted");
+               return true;
+           } else {
+
+               Log.v("LAUNCH", "Permission is revoked");
+               ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+               return false;
+           }
+       } else { //permission is automatically granted on sdk<23 upon installation
+           Log.v("LAUNCH", "Permission is granted");
+           return true;
+       }
+   }
+
     private synchronized void checkReadyToLaunch() {
         if (mTimeIsOut) {
+            if (isStoragePermissionGranted()) {
+                goToMainActivity();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.v("LAUNCH","Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
             goToMainActivity();
         }
     }
