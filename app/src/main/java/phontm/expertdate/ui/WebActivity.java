@@ -7,8 +7,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -21,6 +23,10 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.installreferrer.api.InstallReferrerClient;
+import com.android.installreferrer.api.InstallReferrerStateListener;
+import com.android.installreferrer.api.ReferrerDetails;
 
 import phontm.expertdate.R;
 
@@ -45,6 +51,8 @@ public class WebActivity extends AppCompatActivity {
     public ValueCallback<Uri[]> uploadMessage;
     public static final int REQUEST_SELECT_FILE = 100;
     private final static int FILECHOOSER_RESULTCODE = 1;
+
+    private InstallReferrerClient mReferrerClient;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent)
@@ -165,5 +173,37 @@ public class WebActivity extends AppCompatActivity {
             }
         });
         asw_view.loadUrl(getIntent().getStringExtra("url"));
+
+        mReferrerClient = InstallReferrerClient.newBuilder(this).build();
+        mReferrerClient.startConnection(new InstallReferrerStateListener() {
+            @Override
+            public void onInstallReferrerSetupFinished(int responseCode) {
+                switch (responseCode) {
+                    case InstallReferrerClient.InstallReferrerResponse.OK:
+                        ReferrerDetails response = null;
+                        try {
+                            response = mReferrerClient.getInstallReferrer();
+                            String refer = response.getInstallReferrer();
+                            String[] args = refer.split("&");
+                            mReferrerClient.endConnection();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                        // API not available on the current Play Store app
+                        break;
+                    case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                        // Connection could not be established
+                        break;
+                }
+            }
+
+            @Override
+            public void onInstallReferrerServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+            }
+        });
     }
 }
