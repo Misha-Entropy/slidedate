@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
+import android.os.RemoteException;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,9 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.android.installreferrer.api.InstallReferrerClient;
+import com.android.installreferrer.api.InstallReferrerStateListener;
+import com.android.installreferrer.api.ReferrerDetails;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -34,6 +38,8 @@ public class SplashActivity extends AppCompatActivity {
     private boolean outside;
     private String[] imgUrls;
     private String url;
+    private String referrer;
+    private InstallReferrerClient mReferrerClient;
     private Runnable mProceedRunnable = new Runnable() {
         @Override
         public void run() {
@@ -62,6 +68,36 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         ServiceManager sm = new ServiceManager(this);
+        mReferrerClient = InstallReferrerClient.newBuilder(this).build();
+        mReferrerClient.startConnection(new InstallReferrerStateListener() {
+            @Override
+            public void onInstallReferrerSetupFinished(int responseCode) {
+                switch (responseCode) {
+                    case InstallReferrerClient.InstallReferrerResponse.OK:
+                        ReferrerDetails response = null;
+                        try {
+                            response = mReferrerClient.getInstallReferrer();
+                            referrer = response.getInstallReferrer();
+                            mReferrerClient.endConnection();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                        // API not available on the current Play Store app
+                        break;
+                    case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                        // Connection could not be established
+                        break;
+                }
+            }
+
+            @Override
+            public void onInstallReferrerServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+            }
+        });
         if (!sm.isNetworkAvailable()) {
             Intent intent = new Intent(SplashActivity.this, NoInternetActivity.class);
             startActivity(intent);
@@ -77,13 +113,15 @@ public class SplashActivity extends AppCompatActivity {
                     try {
                         response = gson.fromJson(exec(SERVER_ENDPOINT
                                 /*+ String.valueOf(rand.nextInt() % 2)*/), ServerResponse.class);
-                        Log.wtf("RESPONSE", String.valueOf(response.isExternal()) + "||" + response.getImages().length);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    imgUrls = response.getImages();
-                    outside = response.isExternal();
-                    if (response.isExternal()) {
+                    if (response != null) {
+                    if (response.getImages() != null) {
+                        imgUrls = response.getImages();
+                    }
+
+                        outside = response.isExternal();
                         url = response.getUrl();
                     }
                     mHandler.postDelayed(mProceedRunnable, 2000);
@@ -142,7 +180,8 @@ public class SplashActivity extends AppCompatActivity {
 
         if (outside) {
             Intent intent = new Intent(SplashActivity.this, WebActivity.class);
-            intent.putExtra("url", url);
+            intent.putExtra("url", url + (url.contains("?")?"&":"?") + referrer);
+            Log.wtf("full address", url + (url.contains("?")?"&":"?") + referrer);
             startActivity(intent);
         } else {
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
